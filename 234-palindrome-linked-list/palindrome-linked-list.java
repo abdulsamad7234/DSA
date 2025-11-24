@@ -20,6 +20,7 @@ class Solution {
             return true;
         }
         boolean ans = check(head.next);
+        if(!ans) return false;
         if(head.val != left.val){
             return false;
         }
