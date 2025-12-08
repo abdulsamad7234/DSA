@@ -2,15 +2,18 @@ class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         int m = triangle.size();
         int n = triangle.get(m - 1).size();
-        Integer dp[][] = new Integer[m][n];
+        int dp[][] = new int[m][n];
+        for(int [] row : dp){
+            Arrays.fill(row, 100000);
+        }
         return helper(0, 0, triangle, dp);
     }
 
-    int helper(int i, int j, List<List<Integer>> list, Integer dp[][]){
+    int helper(int i, int j, List<List<Integer>> list, int dp[][]){
         if(i == list.size() - 1){
             return list.get(i).get(j);
         }
-        if(dp[i][j] != null){
+        if(dp[i][j] != 100000){
             return dp[i][j];
         }
         int down = helper(i + 1, j, list, dp);
