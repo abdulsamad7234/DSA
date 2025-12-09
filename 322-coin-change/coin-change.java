@@ -1,31 +1,18 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int n = coins.length;
-        Integer dp[][] = new Integer[n][amount + 1];
-        int ans = solveRec(n - 1, amount, coins, dp);
-        if(ans == (int)1e9){
-            return -1;
+        int [][] dp = new int[coins.length][amount+1];
+        for(int i=0;i<=amount;i++){
+            dp[0][i] = i%coins[0]==0?i/coins[0]:Integer.MAX_VALUE-1;
         }
-        return ans;
-    }
-
-    public int solveRec(int idx, int amount, int coins[], Integer dp[][]){
-        if(amount == 0){
-            return 0;
-        }
-        if(idx == 0){
-            if(amount % coins[0] == 0){
-                return amount / coins[0];
-            }else{
-                return (int)1e9;
+        for(int i=1;i<coins.length;i++){
+            for(int j=1;j<=amount;j++){
+                int nottake = dp[i-1][j];
+                int take = (j-coins[i])>=0?1 + dp[i][j-coins[i]]:Integer.MAX_VALUE-1;
+                dp[i][j] = Math.min(take,nottake);
             }
         }
-
-        if(dp[idx][amount] != null){
-            return dp[idx][amount];
-        }
-        int notTake = solveRec(idx - 1, amount, coins, dp);
-        int take = (coins[idx] > amount) ? (int)1e9 : 1 + solveRec(idx, amount - coins[idx], coins, dp);
-        return dp[idx][amount] = Math.min(notTake, take);
+        int ans = dp[coins.length-1][amount];
+        //int ans = solve(coins,amount,coins.length-1,dp);
+        return ans >= Integer.MAX_VALUE-1?-1:ans;
     }
 }
