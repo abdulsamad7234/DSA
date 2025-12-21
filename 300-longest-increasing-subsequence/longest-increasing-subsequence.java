@@ -1,7 +1,7 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        Integer dp[][] = new Integer[n + 1][n + 1];
+        Integer dp[][] = new Integer[n + 1][n + 2];
         return solve(nums.length - 1, -1, nums, dp);
     }
 
