@@ -1,19 +1,31 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        int dp[] = new int[n];
-        for(int i = 0; i < n; i++){
-            dp[i] = 1;
-        }
-        int max = 1;
-        for(int curr = 1; curr < n; curr++){
-            for(int prev = 0; prev < curr; prev++){
-                if(nums[prev] < nums[curr] && dp[prev] + 1 > dp[curr]){
-                    dp[curr] = dp[prev] + 1;
-                    max = Math.max(max, dp[curr]); 
-                }
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        for(int i = 1; i < n; i++){
+            if(nums[i] > list.get(list.size() - 1)){
+                list.add(nums[i]);
+            }else{
+                list.set(lowerBound(list, nums[i]), nums[i]);
             }
         }
-        return max;
+        return list.size();
+    }
+
+    int lowerBound(ArrayList<Integer> list, int target){
+        int low = 0;
+        int high = list.size() - 1;
+        while(low <= high){
+            int mid = low + (high - low) / 2;
+            if(list.get(mid) == target){
+                return mid;
+            }else if(list.get(mid) < target){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+        }
+        return low;
     }
 }
